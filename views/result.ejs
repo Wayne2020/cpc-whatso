@@ -1,0 +1,90 @@
+<%include header.ejs %>
+<body>
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="stylesheet" href="/layui/css/layui.css" media="all">
+    <script type="text/javascript" src="/layui/layer/layer.js"></script>
+    <script type="text/javascript" src="/javascripts/whatsoSearch.js"></script>
+    <div style="margin-top:0px">
+        <ul class="layui-nav">
+            <li id="home" class="layui-nav-item">
+                <a href=""><img src="/images/logo_2.png" onmouseover="img_tip()" class="img_logo"></a>
+            </li>
+             <li class="layui-nav-item" style="float:right">
+                 <a href=""><img src=<%= userPhoto %>  class="layui-nav-img" style="width: 42px;height: 42px;"><%= userName %></a>
+                 <dl class="layui-nav-child">
+                 <dd><a href="javascript:;"><%= userJobrespons %></a></dd>
+                 <dd><a href="javascript:;"><%= userEmail %></a></dd>
+                 <dd><a href="javascript:;">logOut</a></dd>
+                 </dl>
+             </li>
+             <li id="feedback" class="layui-nav-item" style="float:right">
+                 <a href="https://w3-connections.ibm.com/forums/html/topic?id=0dfb915e-4ac2-4f3a-8555-55d6c192b3b9"  target="_blank">
+					<span class="layui-icon" style="font-size: 20px; color: #DCDCDC;">&#xe609;</span>&nbsp;<span style="font-size: 16px; color: #DCDCDC;">Feedback</span></a>
+             </li>
+             <li id="about" class="layui-nav-item" style="float:right">
+             	<a href="javascript:void(0)" onclick="func_video()" onmouseover="video_tip()">
+                 	<span class="layui-icon" style="font-size: 20px; color: #DCDCDC;">&#xe6ed;</span>&nbsp;<span style="font-size: 16px; color: #DCDCDC;">About Whatso</span></a>
+             </li>
+             </ul>
+     </div>
+         <div id="backScope" class="background-media background_style" backgroundsize="true" style="background-color: #F5F5F5;">
+         <!-- <video style="position:relative;width: 100%;height: 100%; z-index: -1" controls="controls" autoplay="autoplay" loop="loop" class="">
+             <source src="/images/apple_sing_child.mp4" type="video/mp4" />
+         </video> -->
+         </div>
+         <div class="whatso-search-wrapper active"  style="margin-top:0.8%;">
+             <div class="whatso-input-holder">
+                 <input id="whatso_input" type="text" class="whatso-search-input" placeholder="Type to ask whatso" onkeydown="ConversationPanel.inputKeydown(event,this)"/>
+                 <button class="whatso-search-icon" onclick="whatsoSearch.whatsoSearchToggle(this,event);"><span></span></button>
+             </div>
+             <span class="whatso-close" onclick="whatsoSearch.whatsoSearchToggle(this,event);"></span>
+             <div class="whatso-scopes">
+                <span id="Operation" class="whatso-span-scope" onclick="oper(),whatsoSearch.whatsoScopeToggle(this,event,'Operation');ConversationPanel.SelectScope('Operation')"><a id="oper_link" href="javascript:void(0)">Operation</a></span>
+                <span id="PCMS" class="whatso-span-scope" onclick="pcms(),whatsoSearch.whatsoScopeToggle(this,event,'PCMS');ConversationPanel.SelectScope('PCMS')"><a id="pcms_link" href="javascript:void(0)">PCMS</a></span>
+                <span id="ENG" class="whatso-span-scope" onclick="eng(),whatsoSearch.whatsoScopeToggle(this,event,'ENG');ConversationPanel.SelectScope('ENG')"><a id="eng_link" href="javascript:void(0)">ENG</a></span>
+            </div>
+         </div>
+         <div id="whatso_ContentParent" class="whatso-result-display active">
+             <div id="whatso_chat_column_holder" class="whatso-responsive-column content-column" style="background-color:;">
+             <div class="whatso-chat-column" style="background-color:;">
+                 <div id="whatso_scrollingChat" style="background-color:;">     
+                     </div>
+                 </div>
+             </div>
+             </div>
+              
+         </div>
+         
+     <script src="layui/layui.js" charset="utf-8"></script>
+     <script src="/javascripts/whatsoSearch.js"></script>
+     <script src="/javascripts/Common.js"></script>
+     <script src="/javascripts/api.js"></script>
+     <script src="/javascripts/ConversationPanel.js">
+     </script>
+     <script src="/javascripts/global.js"></script>
+     <script>
+             function showMore(i){
+                 $("#messageShowMore"+i).toggle();
+                 if(document.getElementById('showMore'+i).innerText==="Read More..."){
+                    document.getElementById('showMore'+i).innerText="Less..."
+                 }else{
+                    document.getElementById('showMore'+i).innerText="Read More..."
+                 }
+             }
+             layui.use('element', function(){
+             var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+             
+             //监听导航点击
+             element.on('nav(demo)', function(elem){
+                 //console.log(elem)
+                 layer.msg(elem.text());
+                 
+             });
+             });
+
+            
+             </script>
+
+</body>
+
+<%include footer.ejs %>
