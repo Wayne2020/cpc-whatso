@@ -1,9 +1,8 @@
 <%include header.ejs %>
-<body>
+<body id="backScope1" style="background-color: #F5F5F5;">
 	<meta name="viewport" content="width=device-width,initial-scale=1" />
     <link rel="stylesheet" href="/layui/css/layui.css" media="all">
     <script type="text/javascript" src="/layui/layer/layer.js"></script>
-    <script type="text/javascript" src="/javascripts/whatsoSearch.js"></script>
     <div style="margin-top:0px">
         <ul class="layui-nav">
             <li id="home" class="layui-nav-item">
@@ -27,27 +26,27 @@
              </li>
              </ul>
      </div>
-         <div id="backScope" class="background-media background_style" backgroundsize="true" style="background-color: #F5F5F5;">
-         <!-- <video style="position:relative;width: 100%;height: 100%; z-index: -1" controls="controls" autoplay="autoplay" loop="loop" class="">
+         <!--   <div id="backScope" class="background-media background_style" backgroundsize="true" style="background-color: #F5F5F5;">
+         <video style="position:relative;width: 100%;height: 100%; z-index: -1" controls="controls" autoplay="autoplay" loop="loop" class="">
              <source src="/images/apple_sing_child.mp4" type="video/mp4" />
-         </video> -->
-         </div>
-         <div class="whatso-search-wrapper active"  style="margin-top:0.8%;">
+         </video>
+         </div>   -->
+         <div class="whatso-search-wrapper active"  style="margin-top:50px;margin-left: 50%;">
              <div class="whatso-input-holder">
                  <input id="whatso_input" type="text" class="whatso-search-input" placeholder="Type to ask whatso" onkeydown="ConversationPanel.inputKeydown(event,this)"/>
                  <button class="whatso-search-icon" onclick="whatsoSearch.whatsoSearchToggle(this,event);"><span></span></button>
              </div>
              <span class="whatso-close" onclick="whatsoSearch.whatsoSearchToggle(this,event);"></span>
              <div class="whatso-scopes">
-                <span id="Operation" class="whatso-span-scope" onclick="oper(),whatsoSearch.whatsoScopeToggle(this,event,'Operation');ConversationPanel.SelectScope('Operation')"><a id="oper_link" href="javascript:void(0)">Operation</a></span>
-                <span id="PCMS" class="whatso-span-scope" onclick="pcms(),whatsoSearch.whatsoScopeToggle(this,event,'PCMS');ConversationPanel.SelectScope('PCMS')"><a id="pcms_link" href="javascript:void(0)">PCMS</a></span>
-                <span id="ENG" class="whatso-span-scope" onclick="eng(),whatsoSearch.whatsoScopeToggle(this,event,'ENG');ConversationPanel.SelectScope('ENG')"><a id="eng_link" href="javascript:void(0)">ENG</a></span>
+                <span id="Operation" class="whatso-span-scope" onclick="oper();whatsoSearch.whatsoScopeToggle(this,event,'Operation');ConversationPanel.SelectScope('Operation')"><a id="oper_link" href="javascript:void(0)">Operation</a></span>
+                <span id="PCMS" class="whatso-span-scope" onclick="pcms();whatsoSearch.whatsoScopeToggle(this,event,'PCMS');ConversationPanel.SelectScope('PCMS')"><a id="pcms_link" href="javascript:void(0)">PCMS</a></span>
+                <span id="ENG" class="whatso-span-scope" onclick="eng();whatsoSearch.whatsoScopeToggle(this,event,'ENG');ConversationPanel.SelectScope('ENG')"><a id="eng_link" href="javascript:void(0)">ENG</a></span>
             </div>
          </div>
          <div id="whatso_ContentParent" class="whatso-result-display active">
-             <div id="whatso_chat_column_holder" class="whatso-responsive-column content-column" style="background-color:;">
-             <div class="whatso-chat-column" style="background-color:;">
-                 <div id="whatso_scrollingChat" style="background-color:;">     
+             <div id="whatso_chat_column_holder" class="whatso-responsive-column content-column">
+             <div class="whatso-chat-column">
+                 <div id="whatso_scrollingChat">     
                      </div>
                  </div>
              </div>
@@ -55,10 +54,12 @@
               
          </div>
          
-     <script src="layui/layui.js" charset="utf-8"></script>
+     <script src="/layui/layui.js" charset="utf-8"></script>
+     <script src="/layui/layer/layer.js"></script>
      <script src="/javascripts/whatsoSearch.js"></script>
      <script src="/javascripts/Common.js"></script>
      <script src="/javascripts/api.js"></script>
+     <script src="/javascripts/feedback.js"></script>
      <script src="/javascripts/ConversationPanel.js">
      </script>
      <script src="/javascripts/global.js"></script>

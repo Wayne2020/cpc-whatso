@@ -1,8 +1,13 @@
-
+document.onkeydown = function(event){
+    var e = event || window.event ||arguments.callee.caller.arguments[0];
+    if(e && e.keyCode == 13){
+        //$('#whatso_signin').click();
+    }
+}
 document.getElementById("Operation").classList.value="whatso-span-scope active";
 var lastTime = new Date().getTime();
 var currentTime = new Date().getTime();
-var timeOut = 600 * 1000; //设置超时时间： 1小时
+var timeOut = 600 * 1000 * 60; //设置超时时间： 1小时
 $(document).ready(function(){
 /* 鼠标移动事件 */
 $(document).mousemove(function(){
@@ -44,20 +49,17 @@ var whatsoSearch=(function(){
         }
     }
     function whatsoScopeToggle(obj,evt,id){
-        var myback=document.getElementById("backScope");
+        var myback=document.getElementById("backScope1");
         if(id=="Operation"){
-            myback.style.backgroundImage="url('/images/2.png')";
-        	//myback.style.backgroundImage="url('/images/bg_2.png')";
+        	myback.style = "background:url('/images/2.png'); background-size:cover;";
             document.getElementById("PCMS").classList.value="whatso-span-scope";
             document.getElementById("ENG").classList.value="whatso-span-scope";
         }else if(id=="PCMS"){
-            myback.style.backgroundImage="url('/images/3.png')";
-        	//myback.style.backgroundImage="url('/images/bg_3.png')";
+            myback.style = "background:url('/images/3.png'); background-size:cover;";
             document.getElementById("Operation").classList.value="whatso-span-scope";
             document.getElementById("ENG").classList.value="whatso-span-scope";
         }else if(id=="ENG"){
-            myback.style.backgroundImage="url('/images/1.png')";
-        	//myback.style.backgroundImage="url('/images/bg_1.png')";
+            myback.style = "background:url('/images/1.png'); background-size:cover;";
             document.getElementById("PCMS").classList.value="whatso-span-scope";
             document.getElementById("Operation").classList.value="whatso-span-scope";
         }
@@ -73,7 +75,6 @@ var whatsoSearch=(function(){
 }());
 
 
-// add by wayne wu 20171122 
 function img_tip(){
 	layer.tips('Whatso is a cognitive search engine.We can provide directional search service according to the different functions.If you do not believe it, come and have a try.', '#home', {
 		tips: [1, '#393D49'],
@@ -99,6 +100,7 @@ function func_video() {
 	});
 	layer.msg('Click anywhere to close');
 }
+
 
 function oper(){
 	document.getElementById("oper_link").className = "changecolor";

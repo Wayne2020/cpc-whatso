@@ -1,3 +1,10 @@
+document.onkeydown = function(event){
+    var e = event || window.event ||arguments.callee.caller.arguments[0];
+    if(e && e.keyCode == 13){
+        $('#whatso_signin').click();
+    }
+}
+
 $(function(){
     $('#whatso_signin').on('click',function(){
     var intranetId = document.getElementById("whatso_intranetid").value;
@@ -19,12 +26,12 @@ $(function(){
     return false;
 });
 function vailRemember(){
+    $.cookie("Whatsoemail",document.getElementById('whatso_intranetid').value,{expires:7});
     if($("#saveCookie").prop("checked")){
        $.cookie("rmbUser","true",{expires:7});
        $.cookie("Whatsopassword",document.getElementById('whatso_password').value,{expires:7});
     }else {
 　　　　$.cookie("rmbUser", "false", { expire: -1 });
-　　　  $.cookie("Whatsoemail",document.getElementById('whatso_intranetid').value,{expires:7});
 　　　　$.cookie("Whatsopassword", "", { expires: -1 });
 　　}
     }

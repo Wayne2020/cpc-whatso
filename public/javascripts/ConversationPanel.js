@@ -20,13 +20,16 @@ var ConversationPanel=(function(){
           discoveryWatson:'discoveryWatson'
         }
       };
-    var count=0;
+
+    var count=0;//we count message by this count
     var userIntranetId = null;
     var userPhotoUrl="https://w3-services1.w3-969.ibm.com/myw3/unified-profile-photo/v1/image/" +$.cookie('Whatsoemail') +"?type=bp";
     return {
         init:init,
         inputKeydown:inputKeydown,
-        SelectScope,SelectScope,
+        SelectScope:SelectScope,
+        getFeedbackUp:getFeedbackUp,
+        getFeedbackDown:getFeedbackDown
     };
 
     function init(){
@@ -103,10 +106,10 @@ var ConversationPanel=(function(){
            for(var i=0;i<messageDivsDetails.length-1;i++){
                if(i==3){
                 chatBoxElementDetails.appendChild(messageDivsDetails.pop());//queue out to ease last array
-                var chatBoxElementDetailsReadMore=document.querySelector(settings.selectors.fromDiscoveryReadMore);
+                var chatBoxElementDetailsReadMore = document.querySelector(settings.selectors.fromDiscoveryReadMore);
                 chatBoxElementDetailsReadMore.appendChild(messageDivsDetails[i]);
                }else if(i<=3){
-               chatBoxElementDetails.appendChild(messageDivsDetails[i]);
+                chatBoxElementDetails.appendChild(messageDivsDetails[i]);
                }else{
                 chatBoxElementDetailsReadMore.appendChild(messageDivsDetails[i]);
                }
@@ -127,15 +130,21 @@ var ConversationPanel=(function(){
     }
 
     function buildMessageDomElements(newPayload,MessageType){
+        count++;
         var textArray = (MessageType ==='user') ? newPayload.input.text : newPayload.output.text;
         if(Object.prototype.toString.call(textArray) !== '[Object Array]'){
             textArray=[textArray];
         }
 
         var messageArray = [];
-
+          
         textArray.forEach(function(currentText){
             if(currentText !== " "){
+                var singleFeedback = {
+                 currentText:currentText,
+                 count:count,
+                 Scope:SelectedScope
+                };
                 var messageJson={
                   // <li class="from-watson-left">
                   'tagName':'li',
@@ -150,10 +159,28 @@ var ConversationPanel=(function(){
                       'attributes':[{name:'src',value:(MessageType ==='user')?  userPhotoUrl :'/images/IMG_5739.PNG'}],
                      }]},{
                     'tagName':'div',
-                    'classNames':[(MessageType==='user')?'from-user':'from-watson'],
+                    'classNames':[(MessageType === 'user')?'from-user':'from-watson'],
+                    'attributes':[{name:'id',value:(MessageType === 'user')?'from-user'+count:'from-watson'+count}],
                     'children':[{
                         'tagName':'p',
-                        'text':currentText
+                        'text':currentText,
+                    }]
+                  },{
+                    'tagName':'div',
+                    'classNames':(MessageType ==='user')?['whatso-user']:['whatso-feedback'],
+                    'text':(MessageType ==='user')?'':'Useful?',
+                    'children':[{
+                        'tagName':'a',
+                        'classNames':(MessageType==='user')?["style-none"]:["layui-icon","whatso-icon-thumbup"],
+                        'attributes':[{name:'href',value:'#conversationMessage'},{name:'onclick',value:'ConversationPanel.getFeedbackUp(this,'+JSON.stringify(singleFeedback)+')'},
+                        {name:'id',value:'MessageUp-'+count}],
+                        'text':(MessageType==='user')?'':'&#xe6c6;'
+                    },{
+                        'tagName':'a',
+                        'classNames':(MessageType==='user')?["style-none"]:["layui-icon","whatso-icon-thumbdown"],
+                        'attributes':[{name:'href',value:'#conversationMessage'},{name:'onclick',value:'ConversationPanel.getFeedbackDown(this,'+JSON.stringify(singleFeedback)+')'},
+                        {name:'id',value:'MessageDown-'+count}],
+                        'text':(MessageType==='user')?'':'&#xe6c5;'
                     }]
                   }],
                 }
@@ -200,19 +227,47 @@ var ConversationPanel=(function(){
         var messageArrayDetail=[];
         if(newPayload.length<=3){
           for(var i=0;i<newPayload.length;i++){
+            var singleFeedback = {
+                currentText:newPayload[i].resultsFile,
+                count:count,
+                counti:""+count+i,
+                Scope:SelectedScope
+               };
               var messageJson={
-                'tagName': 'a',
-                'attributes':[{name:"href",value:"/ourfiles/"+newPayload[i].resultsFile},{name:"target",value:"_blank"}],
-                'children': [ {
-                  // <p>{messageText}</p>
-                  'tagName':'h2',
-                  'classNames':['discovery-fileName'],
-                  'text':newPayload[i].resultsFile},{
-                  'tagName': 'p',
-                  'text':newPayload[i].resultsHighlight},{
-                  'tagName':'hr',
-                  'classNames':['discovery-margin']
-                } ]
+                  'tagName':'div',
+                  'children':[{
+                    'tagName': 'a',
+                    'attributes':[{name:"href",value:"/ourfiles/"+newPayload[i].resultsFile},{name:"target",value:"_blank"}],
+                    'children': [ {
+                      // <p>{messageText}</p>
+                      'tagName':'h2',
+                      'classNames':['discovery-fileName'],
+                      'text':newPayload[i].resultsFile},{
+                      'tagName': 'p',
+                      'text':newPayload[i].resultsHighlight
+                    } ]
+                  },{
+                    'tagName':'span',
+                    'classNames':['whatso-feedback'],
+                    'text':'Useful?',
+                    'children':[{
+                        'tagName':'a',
+                        'attributes':[{name:'href',value:'#discoveryMessage'},{name:'onclick',value:'ConversationPanel.getFeedbackUp(this,'+JSON.stringify(singleFeedback)+')'},
+                        {name:'id',value:'MessageUp-'+count+i}],
+                        'classNames':["layui-icon","whatso-icon-thumbup"],
+                        'text':'&#xe6c6;'
+                    },{
+                        'tagName':'a',
+                        'attributes':[{name:'href',value:'#discoveryMessage'},{name:'onclick',value:'ConversationPanel.getFeedbackDown(this,'+JSON.stringify(singleFeedback)+')'},
+                        {name:'id',value:'MessageDown-'+count+i}],
+                        'classNames':["layui-icon","whatso-icon-thumbdown"],
+                        'text':'&#xe6c5;'
+                    }]
+                  },{
+                    'tagName':'hr',
+                    'classNames':['discovery-margin']
+                  }],
+                
               }
               messageArrayDetail.push(Common.buildDomElement(messageJson));
                var messageJsonDivReadMore={
@@ -224,19 +279,47 @@ var ConversationPanel=(function(){
         }else{
             count++;
             for(var i=0;i<newPayload.length;i++){
+                var singleFeedback = {
+                    currentText:newPayload[i].resultsFile,
+                    count:count,
+                    counti:""+count+i,
+                    Scope:SelectedScope,
+                   };
                     var messageJson={
-                        'tagName': 'a',
-                        'attributes':[{name:"href",value:"/ourfiles/"+newPayload[i].resultsFile},{name:"target",value:"_blank"}],
-                        'children': [ {
-                          // <p>{messageText}</p>
-                          'tagName':'h2',
-                          'classNames':['discovery-fileName'],
-                          'text':newPayload[i].resultsFile},{
-                          'tagName': 'p',
-                          'text':newPayload[i].resultsHighlight},{
-                          'tagName':'hr',
-                          'classNames':['discovery-margin']
-                        } ]
+                        'tagName':'div',
+                        'children':[{
+                            'tagName': 'a',
+                            'attributes':[{name:"href",value:"/ourfiles/"+newPayload[i].resultsFile},{name:"target",value:"_blank"}],
+                            'children': [ {
+                              // <p>{messageText}</p>
+                              'tagName':'h2',
+                              'classNames':['discovery-fileName'],
+                              'text':newPayload[i].resultsFile},{
+                              'tagName': 'p',
+                              'text':newPayload[i].resultsHighlight
+                            } ]
+                        },{
+                            'tagName':'span',
+                            'text':'Useful?',
+                            'children':[{
+                                'tagName':'a',
+                                'attributes':[{name:'href',value:'#discoveryMessage'},{name:'onclick',value:'ConversationPanel.getFeedbackUp(this,'+JSON.stringify(singleFeedback)+')'},
+                                {name:'id',value:'MessageUp-'+count+i}],
+                                'classNames':["layui-icon","whatso-icon-thumbup"],
+                                'text':'&#xe6c6;'
+                            },{
+                                'tagName':'a',
+                                'attributes':[{name:'href',value:'#discoveryMessage'},{name:'onclick',value:'ConversationPanel.getFeedbackDown(this,'+JSON.stringify(singleFeedback)+')'},
+                                {name:'id',value:'MessageDown-'+count+i}],
+                                'classNames':["layui-icon","whatso-icon-thumbdown"],
+                                'text':'&#xe6c5;'
+                            }]
+                        },{
+                            'tagName':'hr',
+                            'classNames':['discovery-margin']
+                        }],
+
+                        
                       }
                 messageArrayDetail.push(Common.buildDomElement(messageJson));
             }
@@ -262,9 +345,9 @@ var ConversationPanel=(function(){
         SelectedScope=id;
     }
     function inputKeydown(event,inputBox){
-        if(event.keyCode===13 &&inputBox.value){
+        if(event.keyCode === 13 &&inputBox.value){
             var context;
-            var latestResponse= Api.getResponsePayload();
+            var latestResponse = Api.getResponsePayload();
             if(latestResponse){
                 context=latestResponse.context;
             }
@@ -275,4 +358,49 @@ var ConversationPanel=(function(){
             Common.fireEvent(inputBox,'input');
         }
     }
+
+    /***
+     * To write a function
+     * detail record the feedback to json as the record
+     * return getFeedback()
+     */
+
+     function getFeedbackUp(obj,singleFeedbackJson){
+        // $.cookie('Whatsoemail');
+        // SelectedScope;
+        var singleCount = (singleFeedbackJson.counti == undefined)?singleFeedbackJson.count:singleFeedbackJson.counti;
+        var container=$(obj).closest('.whatso-icon-thumbup');
+        if(!container.hasClass('active')){
+            container.addClass('active');
+            document.querySelector('#MessageDown-'+singleCount).removeAttribute('onclick');
+            event.preventDefault();
+        }
+        var feedbackJson={
+            username:$.cookie('Whatsoemail'),
+            scope:singleFeedbackJson.Scope,
+            thumbup:1,
+            whatsoAnswer:singleFeedbackJson.currentText,
+            userAsk:document.getElementById('from-user'+(singleFeedbackJson.count-1)).innerText //here is the message of user which can get from the last message
+        }
+       feedback.sendFeedback(feedbackJson);
+     }
+
+     function getFeedbackDown(obj,singleFeedbackJson){
+        // SelectedScope;
+        var singleCount = (singleFeedbackJson.counti == undefined)?singleFeedbackJson.count:singleFeedbackJson.counti;
+        var container=$(obj).closest('.whatso-icon-thumbdown');
+        if(!container.hasClass('active')){
+            container.addClass('active');
+            document.querySelector('#MessageUp-'+singleCount).removeAttribute('onclick');
+            event.preventDefault();
+        }
+        var feedbackJson={
+            username:$.cookie('Whatsoemail'),
+            scope:singleFeedbackJson.Scope,
+            thumbdown:1,
+            whatsoAnswer:singleFeedbackJson.currentText,
+            userAsk:document.getElementById('from-user'+(singleFeedbackJson.count-1)).innerText//here is the message of user which can get from the last message
+        }
+        feedback.sendFeedback(feedbackJson);
+     }
 }());

@@ -4,7 +4,7 @@ var router = express.Router();
 var bluepages=require("./bluepages");
 var watson=require('watson-developer-cloud');
 var discoveryConn=require('./discoveryConnect');
-
+var fs = require('fs');
 
 //Operation conversation router
 var conversation=new watson.ConversationV1({
@@ -160,5 +160,19 @@ function updateMessage(input, response) {
     response.output.text = responseText;
     return response;
   }
+
+  router.post('/api/writeFeedback',function(req,res){
+    try {
+      fs.appendFile("./dataUsing.txt",JSON.stringify(req.body)+",\n",function(error){
+        if(error){
+          console.log(error);
+        }
+       });
+    } catch (error) {
+      console.log(error);
+    }
+      console.log(req.body);
+      res.send(200);
+  });
 
 module.exports = router;
