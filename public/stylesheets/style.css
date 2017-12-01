@@ -76,8 +76,8 @@ input, button {
           transform: scale(1.1);
 }
 .login__check {
-  position: absolute;
-  left:50px;
+/*   position: absolute; */
+/*   left:6.3rem; */
   top: 40px;
   width: 200px;
   height: 200px;
@@ -179,8 +179,9 @@ background:#FFCD02;
           animation: none;
 }
 .login__signup {
-  position: absolute;
-  top: 230px;
+/*   position: absolute; */
+/*   top: 230px; */
+margin-top: 20px;
   left: 110px;
   font-size: 1.2rem;
   color: #ABA8AE;
@@ -300,7 +301,8 @@ label {
 .w3id{
   position: absolute;
   top:240px;
-  left: 42px;
+/*   margin-left:0px; */
+/*   left: 42px; */
   font-size: 23px;
 /*   color:#26A69A;  */
   color:#FFCD02;
@@ -498,7 +500,7 @@ label {
 }
 
 .whatso-result-display{
- 
+  display:none;
 }
 .whatso-result-display.active{
   position: fixed;

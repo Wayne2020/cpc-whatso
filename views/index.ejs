@@ -1,5 +1,5 @@
 <%include header.ejs %>
-  <body>
+  <body style="text-align: center;">
     <div class="mask"></div>
     <div >
       <video style="width: 100%;height:100%;z-index:-1" controls="controls" autoplay="autoplay" loop="loop" muted="muted">
@@ -8,8 +8,8 @@
     </div>
     <div class="demo">
         <div class="login">
-          <img  class="login__check" src="/images/IMG_5741.PNG">
-          <span class="w3id">Login with your W3<strong>id</strong></span>
+          <img  class="login__check" src="/images/IMG_5741.PNG" style="margin-top: 30px;">
+          <span class="w3id" style="margin-left: -210px;">Login with your W3<strong>id</strong></span>
           <div id="login_form" class="login__form">
             <div class="login__row">
               <svg class="login__icon name svg-icon" viewBox="0 0 20 20">
@@ -25,6 +25,7 @@
             </div>
            <span style="font-size:18px;color:aliceblue;top:15px;position:relative;float:left"> <input type="checkbox" id="saveCookie" style="margin-right:15px"/>Remember me?</span>
             <button id="whatso_signin" type="button" class="login__submit">Sign in</button>
+            <br>
             <a class="login__signup" href="https://w3idprofile.sso.ibm.com/password/createpwd_lookup_otp.wss" >Forget Password?</a>
           </div>
         </div>
