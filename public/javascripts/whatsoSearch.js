@@ -51,15 +51,15 @@ var whatsoSearch=(function(){
     function whatsoScopeToggle(obj,evt,id){
         var myback=document.getElementById("backScope1");
         if(id=="Operation"){
-        	myback.style = "background:url('/images/2.png'); background-size:cover;";
+        	myback.style = "background:url('/images/oper.jpg'); background-size:cover;";
             document.getElementById("PCMS").classList.value="whatso-span-scope";
             document.getElementById("ENG").classList.value="whatso-span-scope";
         }else if(id=="PCMS"){
-            myback.style = "background:url('/images/3.png'); background-size:cover;";
+            myback.style = "background:url('/images/pcms_1.jpg'); background-size:cover;";
             document.getElementById("Operation").classList.value="whatso-span-scope";
             document.getElementById("ENG").classList.value="whatso-span-scope";
         }else if(id=="ENG"){
-            myback.style = "background:url('/images/1.png'); background-size:cover;";
+            myback.style = "background:url('/images/eng_1.jpg'); background-size:cover;";
             document.getElementById("PCMS").classList.value="whatso-span-scope";
             document.getElementById("Operation").classList.value="whatso-span-scope";
         }
